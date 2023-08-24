@@ -37,15 +37,9 @@ if (ENDPOINT) {
 
 const s3 = new S3(s3options);
 const destinationDir = DESTINATION_DIR === '/' ? shortid() : DESTINATION_DIR;
-if(!fs.existsSync(SOURCE_DIR)) {
-  core.error(`SOURCE_DIR: ${SOURCE_DIR} does not exist.`);
-}
-
-
-filemeta = fs.lstatSync(SOURCE_DIR);
-const paths = filemeta.isDirectory() ?  
-  klawSync(SOURCE_DIR, { nodir: true }) :
-  [{path: SOURCE_DIR, stats: filemeta}];
+const paths = klawSync(SOURCE_DIR, {
+  nodir: true,
+});
 
 function upload(params) {
   return new Promise((resolve) => {
